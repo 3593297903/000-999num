@@ -1,0 +1,1024 @@
+{
+  "fixture_version": 2,
+  "mode": "set_amount_small_v1",
+  "purpose": "局部格式与来源金额验收样例；每个案例独立，不是完整号码池，不得据此放宽整批核查。",
+  "money_encoding": "canonical_positive_decimal_string",
+  "cases": [
+    {
+      "name": "不同来源同号相加并按最终金额归类",
+      "set_amounts": [
+        "1",
+        "5",
+        "2"
+      ],
+      "records": [
+        {
+          "position": 1,
+          "item_id": 7,
+          "set_no": 1,
+          "code": "007",
+          "amount": "1"
+        },
+        {
+          "position": 2,
+          "item_id": 2128,
+          "set_no": 3,
+          "code": "128",
+          "amount": "2"
+        },
+        {
+          "position": 3,
+          "item_id": 1007,
+          "set_no": 2,
+          "code": "007",
+          "amount": "5"
+        },
+        {
+          "position": 4,
+          "item_id": 2905,
+          "set_no": 3,
+          "code": "905",
+          "amount": "2"
+        },
+        {
+          "position": 5,
+          "item_id": 642,
+          "set_no": 1,
+          "code": "642",
+          "amount": "1"
+        }
+      ],
+      "expected_raw_count": 5,
+      "expected_distinct_codes": 4,
+      "expected_group_amount": "11",
+      "expected_code_amounts": {
+        "128": "2",
+        "642": "1",
+        "905": "2",
+        "007": "6"
+      },
+      "expected_body": "642直选1元\n128.905直选2元\n007直选6元\n"
+    },
+    {
+      "name": "两条原始记录合并后仅一个号码",
+      "set_amounts": [
+        "1",
+        "5"
+      ],
+      "records": [
+        {
+          "position": 1,
+          "item_id": 192,
+          "set_no": 1,
+          "code": "192",
+          "amount": "1"
+        },
+        {
+          "position": 2,
+          "item_id": 1192,
+          "set_no": 2,
+          "code": "192",
+          "amount": "5"
+        }
+      ],
+      "expected_raw_count": 2,
+      "expected_distinct_codes": 1,
+      "expected_group_amount": "6",
+      "expected_code_amounts": {
+        "192": "6"
+      },
+      "expected_body": "192直选6元\n"
+    },
+    {
+      "name": "两套同金额同号仍相加",
+      "set_amounts": [
+        "5",
+        "5"
+      ],
+      "records": [
+        {
+          "position": 1,
+          "item_id": 7,
+          "set_no": 1,
+          "code": "007",
+          "amount": "5"
+        },
+        {
+          "position": 2,
+          "item_id": 1007,
+          "set_no": 2,
+          "code": "007",
+          "amount": "5"
+        }
+      ],
+      "expected_raw_count": 2,
+      "expected_distinct_codes": 1,
+      "expected_group_amount": "10",
+      "expected_code_amounts": {
+        "007": "10"
+      },
+      "expected_body": "007直选10元\n"
+    },
+    {
+      "name": "同号相加后与其他号码同金额",
+      "set_amounts": [
+        "2",
+        "3",
+        "5"
+      ],
+      "records": [
+        {
+          "position": 1,
+          "item_id": 7,
+          "set_no": 1,
+          "code": "007",
+          "amount": "2"
+        },
+        {
+          "position": 2,
+          "item_id": 1007,
+          "set_no": 2,
+          "code": "007",
+          "amount": "3"
+        },
+        {
+          "position": 3,
+          "item_id": 2128,
+          "set_no": 3,
+          "code": "128",
+          "amount": "5"
+        }
+      ],
+      "expected_raw_count": 3,
+      "expected_distinct_codes": 2,
+      "expected_group_amount": "10",
+      "expected_code_amounts": {
+        "128": "5",
+        "007": "5"
+      },
+      "expected_body": "007.128直选5元\n"
+    },
+    {
+      "name": "一套金额统一且保留三位与组内首次顺序",
+      "set_amounts": [
+        "1"
+      ],
+      "records": [
+        {
+          "position": 1,
+          "item_id": 999,
+          "set_no": 1,
+          "code": "999",
+          "amount": "1"
+        },
+        {
+          "position": 2,
+          "item_id": 0,
+          "set_no": 1,
+          "code": "000",
+          "amount": "1"
+        },
+        {
+          "position": 3,
+          "item_id": 7,
+          "set_no": 1,
+          "code": "007",
+          "amount": "1"
+        },
+        {
+          "position": 4,
+          "item_id": 128,
+          "set_no": 1,
+          "code": "128",
+          "amount": "1"
+        },
+        {
+          "position": 5,
+          "item_id": 356,
+          "set_no": 1,
+          "code": "356",
+          "amount": "1"
+        }
+      ],
+      "expected_raw_count": 5,
+      "expected_distinct_codes": 5,
+      "expected_group_amount": "5",
+      "expected_code_amounts": {
+        "128": "1",
+        "356": "1",
+        "999": "1",
+        "000": "1",
+        "007": "1"
+      },
+      "expected_body": "999.000.007.128.356直选1元\n"
+    },
+    {
+      "name": "多个不同号码分别合并后同金额一行",
+      "set_amounts": [
+        "1",
+        "5",
+        "2"
+      ],
+      "records": [
+        {
+          "position": 1,
+          "item_id": 0,
+          "set_no": 1,
+          "code": "000",
+          "amount": "1"
+        },
+        {
+          "position": 2,
+          "item_id": 2000,
+          "set_no": 3,
+          "code": "000",
+          "amount": "2"
+        },
+        {
+          "position": 3,
+          "item_id": 257,
+          "set_no": 1,
+          "code": "257",
+          "amount": "1"
+        },
+        {
+          "position": 4,
+          "item_id": 2257,
+          "set_no": 3,
+          "code": "257",
+          "amount": "2"
+        }
+      ],
+      "expected_raw_count": 4,
+      "expected_distinct_codes": 2,
+      "expected_group_amount": "6",
+      "expected_code_amounts": {
+        "257": "3",
+        "000": "3"
+      },
+      "expected_body": "000.257直选3元\n"
+    },
+    {
+      "name": "大整数金额不得经浮点或SQLite整数截断",
+      "set_amounts": [
+        "100000000000000003",
+        "100000000000000019"
+      ],
+      "records": [
+        {
+          "position": 1,
+          "item_id": 7,
+          "set_no": 1,
+          "code": "007",
+          "amount": "100000000000000003"
+        },
+        {
+          "position": 2,
+          "item_id": 1007,
+          "set_no": 2,
+          "code": "007",
+          "amount": "100000000000000019"
+        }
+      ],
+      "expected_raw_count": 2,
+      "expected_distinct_codes": 1,
+      "expected_group_amount": "200000000000000022",
+      "expected_code_amounts": {
+        "007": "200000000000000022"
+      },
+      "expected_body": "007直选200000000000000022元\n",
+      "expected_per_code_batch_amount": "200000000000000022",
+      "expected_complete_batch_amount": "200000000000000022000"
+    },
+    {
+      "name": "金额行按整数数值升序而非字符串字典序",
+      "set_amounts": [
+        "2",
+        "10"
+      ],
+      "records": [
+        {
+          "position": 1,
+          "item_id": 1007,
+          "set_no": 2,
+          "code": "007",
+          "amount": "10"
+        },
+        {
+          "position": 2,
+          "item_id": 905,
+          "set_no": 1,
+          "code": "905",
+          "amount": "2"
+        }
+      ],
+      "expected_raw_count": 2,
+      "expected_distinct_codes": 2,
+      "expected_group_amount": "12",
+      "expected_code_amounts": {
+        "905": "2",
+        "007": "10"
+      },
+      "expected_body": "905直选2元\n007直选10元\n"
+    }
+  ],
+  "complete_input_examples": [
+    {
+      "name": "单套最低合法输入",
+      "set_count": 1,
+      "amounts": [
+        "1"
+      ],
+      "expected_raw_total": 1000,
+      "expected_per_code_amount": "1",
+      "expected_total_amount": "1000",
+      "expected_group_count_min": 200,
+      "expected_group_count_max": 500
+    },
+    {
+      "name": "三套不同金额",
+      "set_count": 3,
+      "amounts": [
+        "1",
+        "5",
+        "2"
+      ],
+      "expected_raw_total": 3000,
+      "expected_per_code_amount": "8",
+      "expected_total_amount": "8000",
+      "expected_group_count_min": 600,
+      "expected_group_count_max": 1500
+    },
+    {
+      "name": "三百套不同金额参考规模",
+      "set_count": 300,
+      "amounts": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6"
+      ],
+      "expected_raw_total": 300000,
+      "expected_per_code_amount": "1197",
+      "expected_total_amount": "1197000",
+      "expected_group_count_min": 60000,
+      "expected_group_count_max": 150000
+    },
+    {
+      "name": "完整两套大整数金额",
+      "set_count": 2,
+      "amounts": [
+        "100000000000000003",
+        "100000000000000019"
+      ],
+      "expected_raw_total": 2000,
+      "expected_per_code_amount": "200000000000000022",
+      "expected_total_amount": "200000000000000022000",
+      "expected_group_count_min": 400,
+      "expected_group_count_max": 1000
+    }
+  ],
+  "invalid_examples": [
+    {
+      "name": "0元",
+      "set_count": 1,
+      "amounts": [
+        "0"
+      ]
+    },
+    {
+      "name": "负数",
+      "set_count": 1,
+      "amounts": [
+        "-1"
+      ]
+    },
+    {
+      "name": "小数",
+      "set_count": 1,
+      "amounts": [
+        "1.5"
+      ]
+    },
+    {
+      "name": "科学计数法",
+      "set_count": 1,
+      "amounts": [
+        "1e3"
+      ]
+    },
+    {
+      "name": "未填写",
+      "set_count": 1,
+      "amounts": [
+        ""
+      ]
+    },
+    {
+      "name": "金额数量与套数不一致",
+      "set_count": 3,
+      "amounts": [
+        "1",
+        "5"
+      ]
+    },
+    {
+      "name": "没有套",
+      "set_count": 0,
+      "amounts": []
+    },
+    {
+      "name": "布尔金额",
+      "set_count": 1,
+      "amounts": [
+        true
+      ]
+    },
+    {
+      "name": "浮点数金额而非规范字符串",
+      "set_count": 1,
+      "amounts": [
+        1.5
+      ]
+    },
+    {
+      "name": "套数是布尔值",
+      "set_count": true,
+      "amounts": [
+        "1"
+      ]
+    },
+    {
+      "name": "金额含空白",
+      "set_count": 1,
+      "amounts": [
+        " 1 "
+      ]
+    },
+    {
+      "name": "全角金额",
+      "set_count": 1,
+      "amounts": [
+        "１"
+      ]
+    },
+    {
+      "name": "金额为null",
+      "set_count": 1,
+      "amounts": [
+        null
+      ]
+    }
+  ],
+  "handoff_version": "1.1",
+  "invalid_json_inputs": [
+    {
+      "name": "重复配置键",
+      "raw_json": "{\"set_count\":1,\"set_count\":2,\"amounts\":[\"1\"]}"
+    },
+    {
+      "name": "非标准NaN",
+      "raw_json": "{\"set_count\":NaN,\"amounts\":[\"1\"]}"
+    },
+    {
+      "name": "非标准Infinity",
+      "raw_json": "{\"set_count\":Infinity,\"amounts\":[\"1\"]}"
+    },
+    {
+      "name": "非标准负Infinity",
+      "raw_json": "{\"set_count\":-Infinity,\"amounts\":[\"1\"]}"
+    }
+  ],
+  "adversarial_cases": [
+    {
+      "id": "balanced_equal_amount_source_duplicates",
+      "name": "边缘汇总全正确但来源编号被平衡替换",
+      "set_amounts": [
+        "1",
+        "1"
+      ],
+      "build": "建立完整两套，任选合法2～5分组；原始记录字段先全部合法。",
+      "replacements": [
+        {
+          "from_item_id": 1007,
+          "to_item_id": 7
+        },
+        {
+          "from_item_id": 8,
+          "to_item_id": 1008
+        }
+      ],
+      "dependent_fields": "替换时按新编号更新套号、号码和来源金额；保留group和position。因同号同金额，TXT不变。",
+      "must_preserve": [
+        "原始总条数2000",
+        "每号全局2条",
+        "每套总计1000条",
+        "每号最终2元",
+        "整池2000元"
+      ],
+      "expected": "REJECT",
+      "required_detection": [
+        "source_code_cells_exact",
+        "standard_records_equal",
+        "unique_ids_exact"
+      ]
+    },
+    {
+      "id": "balanced_group_amount_swap",
+      "name": "每组总额与全局逐号金额均正确但组内错配",
+      "set_amounts": [
+        "1",
+        "5"
+      ],
+      "leading_groups": [
+        [
+          7,
+          1128
+        ],
+        [
+          1007,
+          128
+        ]
+      ],
+      "normal_bodies": [
+        "007直选1元\n128直选5元\n",
+        "128直选1元\n007直选5元\n"
+      ],
+      "mutated_bodies": [
+        "128直选1元\n007直选5元\n",
+        "007直选1元\n128直选5元\n"
+      ],
+      "remaining": "其余完整ID排除以上4个后合法分组，所有原始记录不变。",
+      "must_preserve": [
+        "全部原始编号及金额",
+        "每组总金额",
+        "每号全局累计6元",
+        "整池6000元"
+      ],
+      "expected": "REJECT",
+      "required_detection": [
+        "group_code_amounts_exact",
+        "output_bytes_equal"
+      ]
+    },
+    {
+      "id": "reanchored_input_self_consistent",
+      "name": "同时改输入和所有文件让包内自洽",
+      "trusted_set_amounts": [
+        "1",
+        "5"
+      ],
+      "replacement_set_amounts": [
+        "1",
+        "9"
+      ],
+      "mutation": "修改request金额，并相应重建明细、TXT和manifest，但保留最初可信输入和request指纹。",
+      "expected": "REJECT",
+      "forbidden": "不能更新原可信基准或降级为外部导入来回避错误。"
+    },
+    {
+      "id": "uncommitted_visible_amount",
+      "name": "最后一个编辑框未失焦直接开始",
+      "model_before_commit": [
+        "1",
+        "5",
+        "2"
+      ],
+      "visible_amounts": [
+        "1",
+        "5",
+        "9"
+      ],
+      "currently_editing_set_no": 3,
+      "expected_frozen_amounts": [
+        "1",
+        "5",
+        "9"
+      ],
+      "expected_per_code_amount": "15",
+      "expected_complete_batch_amount": "15000",
+      "expected": "COMMIT_VISIBLE_EDITOR_THEN_FREEZE"
+    },
+    {
+      "id": "wrong_group_cache_offset",
+      "name": "缓存自报hash匹配但偏移指向另一组",
+      "set_amounts": [
+        "1",
+        "5"
+      ],
+      "leading_groups": [
+        [
+          7,
+          1128
+        ],
+        [
+          1007,
+          128
+        ]
+      ],
+      "requested_group": 1,
+      "cache_points_to_group": 2,
+      "expected_body": "007直选1元\n128直选5元\n",
+      "expected": "DISCARD_CACHE_REBUILD_RETURN_REQUESTED_GROUP",
+      "forbidden": "不能显示或复制第2组冒充第1组。"
+    },
+    {
+      "id": "restore_reads_original_root",
+      "name": "恢复只能核查恢复副本",
+      "setup": "生成并备份完整已完成批次，把备份恢复到另一空目标。原工作区设为不可访问；另测恢复副本损坏/复制未完。",
+      "expected_good_restore": "全部目标文件正确且15次通过，允许有效。",
+      "expected_bad_restore": "缺失、损坏或复制未完必须失败或保持待复核；不能回读原目录。",
+      "path_rule": "数据库batch_relpath相对当前目标根，不包含源绝对路径。"
+    },
+    {
+      "id": "cancel_at_commit_boundary",
+      "name": "提交前后取消生效边界",
+      "before_committing": "CANCELLED，不能发布正式目录或登记COMPLETED。",
+      "after_committing": "普通取消不打断提交；完整提交成功为COMPLETED。",
+      "hard_exit_during_commit": "INTERRUPTED，下次基于原可信快照重新完整15次审查。",
+      "expected": "NO_FALSE_COMPLETION_OR_FALSE_CANCEL_SUCCESS"
+    },
+    {
+      "id": "replace_all_000_no_total_change",
+      "name": "用001替换全部000但总条数和总金额不变",
+      "set_amounts": [
+        "1",
+        "1"
+      ],
+      "replacements": [
+        {
+          "from_item_id": 0,
+          "to_item_id": 1
+        },
+        {
+          "from_item_id": 1000,
+          "to_item_id": 1001
+        }
+      ],
+      "dependent_fields": "按替代编号更新号码、套号和金额，并按被改明细重建TXT。",
+      "must_preserve": [
+        "原始总条数2000",
+        "每套总计1000条",
+        "整池2000元"
+      ],
+      "expected": "REJECT",
+      "required_detection": [
+        "raw_per_code_exact",
+        "source_code_cells_exact",
+        "standard_records_equal",
+        "unique_ids_exact"
+      ]
+    }
+  ],
+  "audit_gate_cases": [
+    "missing_report",
+    "duplicate_method_round",
+    "mixed_audit_id",
+    "mixed_snapshot_digest",
+    "mixed_request_fingerprint",
+    "pass_with_missing_proof",
+    "pass_with_false_proof",
+    "pass_with_null_actual_stat",
+    "nonzero_exit_with_pass",
+    "data_changed_after_reports",
+    "report_changed_before_summary"
+  ],
+  "long_term_acceptance": {
+    "mode": "requirements_for_future_packaged_application_not_tests_already_run",
+    "minimum_small_batch_runs": 100,
+    "minimum_large_batch_runs": 10,
+    "large_batch_set_count": 300,
+    "large_batch_raw_total": 300000,
+    "minimum_gui_uptime_seconds": 7200,
+    "minimum_startup_exit_cycles": 20,
+    "audits_per_batch": 15,
+    "minimum_real_completed_history_batches": 100,
+    "backup_layout": "per_batch_self_contained_with_trusted_input_anchor",
+    "backup_same_batch_core_copy_reuse": true,
+    "global_history_excludes_per_group_and_per_record_detail": true,
+    "catalog_snapshot_slots": 2,
+    "recommended_defaults": {
+      "cache_max_batches": 3,
+      "cache_max_bytes": 134217728,
+      "log_max_files": 10,
+      "log_max_file_bytes": 10485760
+    },
+    "required_lifecycle_faults": [
+      "disk_full_during_candidate_write",
+      "backup_device_unavailable_after_completed_generation",
+      "catalog_corrupt_on_startup_no_silent_recreate",
+      "restore_without_original_data_root",
+      "wrong_cache_offset_with_matching_digest",
+      "crash_before_and_after_freeze",
+      "crash_after_directory_publish_before_database_commit",
+      "unknown_protocol_version_rejected",
+      "clock_rollback_does_not_overwrite_existing_batch",
+      "index_slot_rotation_keeps_a_valid_previous_copy",
+      "rollback_preserves_batches_created_after_upgrade"
+    ],
+    "must_not_claim_pass_without_real_runs": [
+      "long_gui_uptime",
+      "repeated_spawn_process_cleanup",
+      "actual_exe_handle_memory_trend",
+      "actual_restart_recovery",
+      "actual_version_migration"
+    ]
+  }
+}
+
