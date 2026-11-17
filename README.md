@@ -4,6 +4,16 @@ Windows 本地桌面程序，使用 Python 3.13、PySide6 和 SQLite。当前主
 
 源码仓库：[3593297903/000-999num](https://github.com/3593297903/000-999num)。仓库只保存源码、测试、固定格式样例、构建配置和使用文档。实际号码批次、金额输入记录、历史库、备份、Word、QA 收据、虚拟环境和 exe 构建产物留在运行设备本地。
 
+## 直接下载 Windows 便携版
+
+[下载免安装 ZIP](https://github.com/3593297903/000-999num/releases/download/v1.1.0-word-20261117/AmountTool-Windows-x64-1.1.0-word-20261117.zip) · [发行说明与校验文件](https://github.com/3593297903/000-999num/releases/tag/v1.1.0-word-20261117)
+
+Windows 10/11 64位电脑：下载后**完整解压**，打开 `AmountTool` 文件夹，双击 **`启动程序.cmd`**。本包包含 Python、PySide6 和运行依赖，不需要安装 Python，也不需要运行 `setup.cmd`。
+
+保留完整 `_internal` 文件夹。启动脚本将本机数据保存到程序旁的 `data_amount`，默认备份保存到 `data_amount_backups`；压缩包不包含其他设备的历史数据。下文的 Python 安装步骤只针对源码运行。
+
+当前便携包作为预览版发布，长期验收状态见发行说明。
+
 ## 业务规则
 
 - 选择 **1～300 套**，每套完整包含 `000–999`，每套填写一个大于零的整数金额。
@@ -17,7 +27,7 @@ Windows 本地桌面程序，使用 Python 3.13、PySide6 和 SQLite。当前主
 
 当前上限为 300 套；500 套扩展尚未实现。本仓库不把历史的两小时运行及更大规模长期验收标为已完成。
 
-## 在新电脑安装和启动
+## 从源码安装和启动
 
 需要 Windows 10/11 x64、Python 3.13 x64，以及 Python launcher。首次安装依赖需要网络。
 
